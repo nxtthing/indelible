@@ -15,11 +15,11 @@ module Indelible
   end
 
   def destroy
-    before_destroying
     self.removed_at = Time.current
     run_callbacks(:destroy) do
       save(validate: false)
     end
+    after_indelible_destroy
   end
 
   def recover
@@ -27,5 +27,5 @@ module Indelible
     self.removed_at = nil
   end
 
-  def before_destroying; end
+  def after_indelible_destroy; end
 end
