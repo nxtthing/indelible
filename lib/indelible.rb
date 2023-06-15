@@ -20,6 +20,7 @@ module Indelible
       save(validate: false)
     end
     after_indelible_destroy
+    true
   end
 
   def recover
