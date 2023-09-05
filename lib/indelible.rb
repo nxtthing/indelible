@@ -7,26 +7,17 @@ module Indelible
   end
 
   def removed?
-    @marked_for_destruction || removed_at.present?
+    removed_at.present?
   end
 
-  def delete
-    destroy
+  # rubocop:disable Rails/SkipsModelValidations
+  def destroy_row
+    update_column(:removed_at, Time.current)
+    1
   end
-
-  def destroy
-    self.removed_at = Time.current
-    run_callbacks(:destroy) do
-      save(validate: false)
-    end
-    after_indelible_destroy
-    true
-  end
+  # rubocop:enable Rails/SkipsModelValidations
 
   def recover
-    @marked_for_destruction = false
     self.removed_at = nil
   end
-
-  def after_indelible_destroy; end
 end
