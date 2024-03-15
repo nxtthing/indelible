@@ -12,7 +12,7 @@ module Indelible
 
   # rubocop:disable Rails/SkipsModelValidations
   def destroy_row
-    update_column(:removed_at, Time.current)
+    update_column(:removed_at, Time.current) unless removed?
     1
   end
   # rubocop:enable Rails/SkipsModelValidations
