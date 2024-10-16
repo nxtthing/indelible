@@ -2,7 +2,9 @@ module Indelible
   extend ActiveSupport::Concern
 
   included do
+    scope :removed, -> { with_removed.where.not(removed_at: nil) }
     scope :not_removed, -> { where(removed_at: nil) }
+    scope :with_removed, -> { unscope(where: :removed_at) }
     default_scope { not_removed }
   end
 
